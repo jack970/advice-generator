@@ -10,16 +10,26 @@ const doGet = async () => {
   }
 };
 
+const showLoading = (show) => {
+  const loading = document.getElementById("loader");
+  return show
+    ? (loading.style.display = "block")
+    : (loading.style.display = "none");
+};
+
 const main = async () => {
   const adviceId = document.getElementById("adviceId");
-  const adviceText = document.getElementById("adviceText");
+  const adviceText = document.getElementById("advice-text");
 
   try {
+    adviceText.innerHTML = "";
+    showLoading(true);
     const jsonResponse = await doGet();
+    showLoading(false);
     const { id, advice } = jsonResponse.slip;
 
     adviceId.innerHTML = id;
-    adviceText.innerHTML = advice;
+    adviceText.innerHTML = `“${advice}”`;
   } catch (error) {
     console.error(error);
   }
